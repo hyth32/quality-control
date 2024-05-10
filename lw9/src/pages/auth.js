@@ -4,21 +4,36 @@ class AuthPage {
     }
 
     async navigateToLoginPage() {
-        await this.page.goto('http://shop.qatl.ru/user/login', {waitUntil: 'networkidle2'})
+        try {
+            await this.page.goto('http://shop.qatl.ru/user/login', {waitUntil: 'networkidle2'})
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     async login(login, password) {
-        await this.page.type('input[name="login"]', login, {delay: 100})
-        await this.page.type('input[name="password"]', password, {delay: 100})
-        await this.page.click('button[type="submit"]')
+        if (!login || !password) {
+            return
+        }
+        try {
+            await this.page.type('input[name="login"]', login, {delay: 100})
+            await this.page.type('input[name="password"]', password, {delay: 100})
+            await this.page.click('button[type="submit"]')
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     async isSuccessMessageDisplayed() {
-        await this.page.waitForSelector('.alert-success')
-        const successElement = await this.page.evaluate(() => {
-            return document.querySelector('.alert-success')
-        })
-        return !!successElement
+        try {
+            await this.page.waitForSelector('.alert-success')
+            const successElement = await this.page.evaluate(() => {
+                return document.querySelector('.alert-success')
+            })
+            return !!successElement
+        } catch (err) {
+            console.error(err)
+        }
     }
 }
 

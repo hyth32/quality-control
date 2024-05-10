@@ -2,15 +2,18 @@
   "users": [
     {
       "login": "hyth32",
-      "password": "123456789"
+      "password": "123456789",
+      "expect": true
     },
     {
       "login": "testUser2",
-      "password": "testPassword2"
+      "password": "testPassword2",
+      "expect": false
     },
     {
       "login": "testUser3",
-      "password": "testPassword3"
+      "password": "testPassword3",
+      "expect": false
     }
   ]
 }
