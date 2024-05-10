@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "login": "hyth32",
+      "password": "123456789"
+    },
+    {
+      "login": "testUser2",
+      "password": "testPassword2"
+    },
+    {
+      "login": "testUser3",
+      "password": "testPassword3"
+    }
+  ]
+}
