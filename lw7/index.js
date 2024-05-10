@@ -20,8 +20,8 @@ nock('http://api.exchangeratesapi.io')
 
 app.get('/currency/:base/:target', async (req, res) => {
     const {base, target} = req.params
-    const response = await axios.get(`http://api.exchangeratesapi.io/latest?base=${base}`)
     try {
+        const response = await axios.get(`http://api.exchangeratesapi.io/latest?base=${base}`)
         const rate = response.data.rates[target]
         if (rate) {
             res.json({rate})

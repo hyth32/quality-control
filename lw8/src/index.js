@@ -1,6 +1,5 @@
 const express = require('express')
 const axios = require('axios')
-const {validateProductFields} = require('./utils/validate')
 
 const app = express()
 const port = 3000

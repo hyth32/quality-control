@@ -44,4 +44,10 @@ describe('Calculator', () => {
         expect(calculator.getResult()).toBe(0)
         expect(calculator.getHistory()).toEqual([])
     })
+
+    test('brokenReset', () => {
+        calculator.add(5)
+        calculator.reset()
+        expect(calculator.getResult()).toBe(5)
+    })
 })
