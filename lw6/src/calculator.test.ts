@@ -45,9 +45,12 @@ describe('Calculator', () => {
         expect(calculator.getHistory()).toEqual([])
     })
 
-    test('brokenReset', () => {
+    test('multiple operations', () => {
         calculator.add(5)
-        calculator.reset()
-        expect(calculator.getResult()).toBe(5)
+        calculator.subtract(2)
+        calculator.multiply(3)
+        calculator.divide(2)
+        expect(calculator.getResult()).toBe(4.5)
+        expect(calculator.getHistory()).toEqual(['Added 5', 'Subtracted 2', 'Multiplied by 3', 'Divided by 2'])
     })
 })
