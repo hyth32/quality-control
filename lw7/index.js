@@ -20,14 +20,19 @@ nock('http://api.exchangeratesapi.io')
 
 app.get('/currency/:base/:target', async (req, res) => {
     const {base, target} = req.params
+    if (!base || !target) {
+        res.status(400).json({error: 'Invalid request parameters'})
+        return
+    }
     try {
         const response = await axios.get(`http://api.exchangeratesapi.io/latest?base=${base}`)
-        const rate = response.data.rates[target]
-        if (rate) {
-            res.json({rate})
-        } else {
-            res.status(400).json({error: 'Invalid target currency'})
+        const rates = response.data.rates
+        if (!rates[base] || !rates[target]) {
+            res.status(400).json({error: 'Invalid base or target currency'})
+            return
         }
+        const rate = rates[target]
+        res.json({rate})
     } catch (err) {
         res.status(500).json({error: 'Error fetching rates'})
     }
