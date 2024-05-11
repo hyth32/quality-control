@@ -1,35 +1,24 @@
 {
   "addProduct": {
-    "requestBody": {
-      "id": 9999,
-      "category_id": 12,
-      "title": "новый продукт",
-      "alias": "novyproduct-0",
-      "content": "текст",
-      "price": 100,
-      "old_price": 0,
-      "status": 1,
-      "keywords": "текст",
-      "description": "текст описания",
-      "hit": 0
-    }
+    "category_id": 1,
+    "title": "новый продукт",
+    "content": "текст",
+    "price": 100,
+    "old_price": 0,
+    "status": 1,
+    "keywords": "текст",
+    "description": "текст описания",
+    "hit": 0
   },
   "editProduct": {
-    "requestBody": {
-      "id": "9999",
-      "category_id": 12,
-      "title": "измененный продукт",
-      "alias": "izmenennyproduct-0",
-      "content": "измененный текст",
-      "price": 200,
-      "old_price": 0,
-      "status": 1,
-      "keywords": "измененный текст",
-      "description": "измененный текст описания",
-      "hit": 1
-    }
-  },
-  "deleteProduct": {
-    "productId": 9999
+    "category_id": 12,
+    "title": "измененный продукт",
+    "content": "измененный текст",
+    "price": 200,
+    "old_price": 0,
+    "status": 1,
+    "keywords": "измененный текст",
+    "description": "измененный текст описания",
+    "hit": 1
   }
 }

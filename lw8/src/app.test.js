@@ -1,55 +1,34 @@
 const axios = require('axios');
 const testData = require('../testData.json');
-const {validateProductFields} = require('./utils/validate')
+const {validateProduct} = require('./utils/validate')
 
 const BASE_URL = 'http://shop.qatl.ru/'
 
 describe('API tests', () => {
+    let prodId
+
     test('All products', async () => {
-        const response = await axios.get(`${BASE_URL}/api/products`)
-        expect(response.status).toBe(200)
-
-        const products = response.data
-        expect(Array.isArray(products)).toBe(true)
+        const {status, data} = await axios.get(`${BASE_URL}/api/products`)
+        expect(status).toBe(200)
+        expect(Array.isArray(data)).toBe(true)
     })
 
-    //id продукта присваивает бэк вне зависимости от уходящего объекта,
-    // дополняются поля, не указанные в тз, сравнение не работает
     test('Add product', async () => {
-        const response = await axios.post(`${BASE_URL}/api/addproduct`, JSON.stringify(testData.addProduct.requestBody))
-        expect(response.status).toBe(200)
-        expect(response.data.status).toBe(1)
+        const {data: {id}, status} = await axios.post(`${BASE_URL}/api/addproduct`, testData.addProduct)
+        expect(status).toBe(200)
+        prodId = id
 
-        const products = await axios.get(`${BASE_URL}/api/products`)
-        const addedProduct = products.data[products.data.length - 1]
-        console.log(addedProduct)
-        // expect(validateProductFields(addedProduct, testData.addProduct.requestBody)).toBe(true)
-        // console.log(data.data[data.data.length - 1])
-        // const addedProduct = JSON.parse(response.config.data)
-        // expect(validateProductFields(addedProduct, testData.addProduct.requestBody)).toBe(true)
+        expect(await validateProduct(testData, 'addProduct', BASE_URL)).toBe(true)
     })
 
-    //id так же меняется бэком у измененного продукта, присваивает id+1, тоже особо не захендлить,
-    //сравнение не работает по той же причине
     test('Edit product', async () => {
-        const response = await axios.post(`${BASE_URL}/api/editproduct`, JSON.stringify(testData.editProduct.requestBody))
-        expect(response.status).toBe(200)
-        expect(response.data.status).toBe(1)
-
-        const products = await axios.get(`${BASE_URL}/api/products`)
-        const editedProduct = products.data[products.data.length - 1]
-        console.log(editedProduct)
-        // const editedProduct = JSON.parse(response.config.data)
-        // expect(validateProductFields(editedProduct, testData.editProduct.requestBody)).toBe(true)
+        const {status} = await axios.post(`${BASE_URL}/api/editproduct`, {...testData.editProduct, id: prodId})
+        expect(status).toBe(200)
+        expect(await validateProduct(testData, 'editProduct', BASE_URL)).toBe(true)
     })
 
-    //из-за проблем выше удаление только вручную (если без заморочек)
     test('Delete product', async () => {
-        // const response = await axios.post(`${BASE_URL}/api/deleteproduct?id=${testData.deleteProduct.productId}`)
-        const response = await axios.post(`${BASE_URL}/api/deleteproduct?id=${29351}`)
-        expect(response.status).toBe(200)
-
-        const products = await axios.get(`${BASE_URL}/api/products`)
-        console.log(products.data[products.data.length - 1])
+        const {status} = await axios.post(`${BASE_URL}/api/deleteproduct?id=${prodId}`)
+        expect(status).toBe(200)
     })
 })
