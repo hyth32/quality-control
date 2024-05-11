@@ -16,7 +16,7 @@
   },
   "editProduct": {
     "requestBody": {
-      "id": 9999,
+      "id": "9999",
       "category_id": 12,
       "title": "измененный продукт",
       "alias": "izmenennyproduct-0",
