@@ -1,0 +1,31 @@
+[
+    {
+      "login": "hyth32",
+      "password": "123456789",
+      "expected": {
+        "status": true
+      }
+    },
+    {
+      "login": "",
+      "password": "123",
+      "expected": {
+        "status": false
+      }
+    },
+    {
+      "login": "123",
+      "password": "",
+      "expected": {
+        "status": false
+      }
+    },
+    {
+      "login": "testUser2",
+      "password": "testPassword2",
+      "expected": {
+        "status": false,
+        "message": "Логин/пароль введены неверно"
+      }
+    }
+]

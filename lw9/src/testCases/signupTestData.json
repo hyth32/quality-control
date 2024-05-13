@@ -1,0 +1,44 @@
+[
+  {
+    "login": "",
+    "password": "123456789",
+    "name": "Name",
+    "email": "weurtoi@mmm.com",
+    "address": "Address",
+    "expected": {
+      "status": false
+    }
+  },
+  {
+    "login": "hyth321",
+    "password": "123456789",
+    "name": "Name",
+    "email": "",
+    "address": "Address",
+    "expected": {
+      "status": false
+    }
+  },
+  {
+    "login": "hyth321",
+    "password": "123456789",
+    "name": "Name",
+    "email": "weurtoi@mmm.com",
+    "address": "Address",
+    "expected": {
+      "status": false,
+      "messages": ["Этот логин уже занят"]
+    }
+  },
+  {
+    "login": "hyth321",
+    "password": "123456789",
+    "name": "Name",
+    "email": "opo@d.com",
+    "address": "Address",
+    "expected": {
+      "status": false,
+      "messages": ["Этот логин уже занят", "Этот email уже занят"]
+    }
+  }
+]

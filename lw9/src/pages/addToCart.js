@@ -3,11 +3,11 @@ class ProductsPage {
         this.page = page
     }
 
-    async navigateToProductsPage() {
+    async init() {
         try {
-            await this.page.goto('http://shop.qatl.ru/', {waitUntil: 'networkidle2'})
+            await this.page.goto('http://shop.qatl.ru/')
         } catch (err) {
-            console.error(err)
+            throw new Error(`Can't navigate to products page: ${err}`)
         }
     }
 
@@ -17,7 +17,7 @@ class ProductsPage {
                 await this.page.click(`a[data-id="${id}"]`)
                 return true
             } catch (err) {
-                console.error(err)
+                throw new Error(`Can't click on add button: ${err}`)
             }
         }
         return false
@@ -34,7 +34,22 @@ class ProductsPage {
             })
             return !!successElement
         } catch (err) {
-            console.error(err)
+            throw new Error(`Success message isn't displayed: ${err}`)
+        }
+    }
+
+    async navigateToCheckout(isAddedMessageDisplayed) {
+        if (!isAddedMessageDisplayed) {
+            return false
+        }
+        try {
+            await Promise.all([
+                this.page.waitForNavigation(),
+                this.page.click('a[href="cart/view"]')
+            ])
+            return true
+        } catch (err) {
+            throw new Error(`Can't navigate to checkout page: ${err}`)
         }
     }
 }

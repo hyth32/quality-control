@@ -1,5 +1,9 @@
 {
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
+    "@types/jest": "^29.5.12",
     "axios": "^1.6.8",
     "express": "^4.19.2",
     "puppeteer": "^22.8.0"

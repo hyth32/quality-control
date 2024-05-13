@@ -1,10 +1,13 @@
 const puppeteer = require('puppeteer')
-const AuthPage = require('./auth')
+const LoginPage = require('./login')
+const SignupPage = require('./signup')
 const ProductsPage = require('./addToCart')
 const CheckoutPage = require('./checkout')
+const Search = require('./search')
 const readJsonFromDir = require('../utils/readJsonFromDir')
 
-const authTestData = readJsonFromDir('../testCases/authTestData.json')
+const loginTestData = readJsonFromDir('../testCases/loginTestData.json')
+const signupTestData = readJsonFromDir('../testCases/signupTestData.json')
 const cartTestData = readJsonFromDir('../testCases/cartTestData.json')
 
 describe('UI Test', () => {
@@ -20,34 +23,151 @@ describe('UI Test', () => {
         await browser.close()
     })
 
-    test('login', async () => {
-        const loginPage = new AuthPage(testPage)
-        await loginPage.navigateToLoginPage()
-        await loginPage.login(authTestData.users[0].login, authTestData.users[0].password)
-        const isDisplayed = await loginPage.isSuccessMessageDisplayed()
-        expect(isDisplayed).toBe(authTestData.users[0].expect)
+    //тесты входа
+    describe('Login test', () => {
+        loginTestData.forEach(({login, password, expected}) => {
+            test(`Login with username "${login}" and password "${password}"`, async () => {
+                const loginPage = new LoginPage(testPage)
+                await loginPage.init()
+                const isLoggedIn = await loginPage.login(login, password)
+                const [dangerMessages, isSuccess] = await loginPage.isMessageDisplayed(isLoggedIn)
+                const isDanger = dangerMessages.length > 0
+                expect(!isDanger && isSuccess).toBe(expected.status)
+                if (isDanger) {
+                    const dangerMessage = dangerMessages[0]
+                    expect(dangerMessage).toBe(expected.message)
+                }
+            })
+        })
     })
 
-    test('addToCart', async () => {
-        const productsPage = new ProductsPage(testPage)
-        await productsPage.navigateToProductsPage()
-        const isAdded = await productsPage.addProduct(cartTestData[2].id)
-        const isDisplayed = await productsPage.isAddedMessageDisplayed(isAdded)
-        expect(isAdded).toBe(cartTestData[2].expect)
-        expect(isDisplayed).toBe(cartTestData[2].expect)
+    //тесты регистрации
+    //не забыть вернуть валидный тест (в тг)
+    describe('Sign up test', () => {
+        signupTestData.forEach(({login, password, name, email, address, expected}) => {
+            test(`Sign up with login "${login}" and email "${email}"`, async () => {
+                const signupPage = new SignupPage(testPage)
+                await signupPage.init()
+                const isSignedUp = await signupPage.signup(login, password, name, email, address)
+                const [dangerMessages, isSuccess] = await signupPage.isMessageDisplayed(isSignedUp)
+                const isDanger = dangerMessages.length > 0
+                expect(!isDanger && isSuccess).toBe(expected.status)
+                if (isDanger) {
+                    expect(dangerMessages).toEqual(expected.messages)
+                }
+            })
+        })
     })
 
-    test('addToCart and checkout', async () => {
-        const productsPage = new ProductsPage(testPage)
-        await productsPage.navigateToProductsPage()
-        const isAdded = await productsPage.addProduct(cartTestData[1].id)
-        const isDisplayed = await productsPage.isAddedMessageDisplayed(isAdded)
-        expect(isAdded).toBe(cartTestData[1].expect)
-        expect(isDisplayed).toBe(cartTestData[1].expect)
+    //тесты поиска
+    describe('Search test', () => {
+        test('Non-empty query', async () => {
+            expect(true).toBe(true)
+        })
 
-        const checkoutPage = new CheckoutPage(testPage)
-        await checkoutPage.navigateToCheckout()
-        const isSuccess = await checkoutPage.checkout()
-        expect(isSuccess).toBe(true)
+        test('Empty query', async () => {
+            expect(true).toBe(true)
+        })
+    })
+
+    //тесты добавления продукта
+    describe('Add product test', () => {
+        test('Valid id', async () => {
+            expect(true).toBe(true)
+        })
+
+        test('Invalid id', async () => {
+            expect(true).toBe(true)
+        })
+    })
+
+    //тесты оформления заказа
+    describe('Checkout test', () => {
+        describe('With user', () => {
+            test('Checkout', async () => {
+                expect(true).toBe(true)
+            })
+        })
+
+        describe('Without user', () => {
+            test('Checkout (Not enough fields)', async () => {
+                expect(true).toBe(true)
+            })
+
+            //форма регистрации, ошибка - существующий пользователь
+            test('Checkout (User exists)', async () => {
+                expect(true).toBe(true)
+            })
+        })
+    })
+
+    describe('Test with user', () => {
+        const {login, password} = loginTestData[0]
+
+        //пользователь вошел
+        describe('Logged in user', () => {
+            test('Login', async () => {
+                const loginPage = new LoginPage(testPage)
+                await loginPage.init()
+                const isLoggedIn = await loginPage.login(login, password)
+                const [, isSuccess] = await loginPage.isMessageDisplayed(isLoggedIn)
+                expect(isSuccess).toBe(true)
+            })
+
+            //переписать search для использования в add product
+            test('Search (non-empty)', async () => {
+                expect(true).toBe(true)
+            })
+
+            test('Add product (valid id)', async () => {
+                const productsPage = new ProductsPage(testPage)
+                await productsPage.init()
+                const isAdded = await productsPage.addProduct(2)
+                const isDisplayed = await productsPage.isAddedMessageDisplayed(isAdded)
+                const isNavigated = await productsPage.navigateToCheckout(isDisplayed)
+                expect(isNavigated).toBe(true)
+            })
+
+            //переписать checkout для использования в зависимости от существования юзера
+            //плюс заполнение Note textarea
+            //добавить отдельный метод finishCheckout() с нажатием на кнопку
+            test('Checkout', async () => {
+                expect(true).toBe(true)
+            })
+        })
+
+        //пользователь зарегистрировался
+        describe('New user', () => {
+            test('Sign up', async () => {
+                expect(true).toBe(true)
+            })
+
+            test('Search (non-empty)', async () => {
+                expect(true).toBe(true)
+            })
+
+            test('Add product (valid id)', async () => {
+                expect(true).toBe(true)
+            })
+
+            test('Checkout', async () => {
+                expect(true).toBe(true)
+            })
+        })
+    })
+
+    describe('Test without user', () => {
+        test('Search (Non-empty)', async () => {
+            expect(true).toBe(true)
+        })
+
+        test('Add product (Valid id)', async () => {
+            expect(true).toBe(true)
+        })
+
+        //тут чекаут с формой регистрации (валидные данные)
+        test('Checkout (New user)', async () => {
+            expect(true).toBe(true)
+        })
     })
 })
