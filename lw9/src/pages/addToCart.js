@@ -1,21 +1,23 @@
-class ProductsPage {
+class AddToCart {
     constructor(page) {
         this.page = page
     }
 
-    async init() {
-        try {
-            await this.page.goto('http://shop.qatl.ru/')
-        } catch (err) {
-            throw new Error(`Can't navigate to products page: ${err}`)
-        }
+    async screenshot(path, fullPage) {
+        await this.page.screenshot({path: path, fullPage: fullPage})
     }
 
     async addProduct(id) {
-        if (id > 0) {
+        if (id && id > 0) {
             try {
-                await this.page.click(`a[data-id="${id}"]`)
-                return true
+                const addButton = await this.page.evaluate(() => {
+                    return document.querySelector(`a[data-id="${id}"]`)
+                })
+                if (!!addButton) {
+                    await this.page.click(addButton)
+                    return true
+                }
+                return false
             } catch (err) {
                 throw new Error(`Can't click on add button: ${err}`)
             }
@@ -54,4 +56,4 @@ class ProductsPage {
     }
 }
 
-module.exports = ProductsPage
+module.exports = AddToCart

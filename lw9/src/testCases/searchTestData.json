@@ -1,0 +1,10 @@
+[
+  {
+    "searchQuery": "",
+    "expected": false
+  },
+  {
+    "searchQuery": "qwe",
+    "expected": true
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "additionTests": [
+    {
+      "value": 5,
+      "expectedResult": 5,
+      "expectedHistory": ["Added 5"]
+    },
+    {
+      "value": -5,
+      "expectedResult": -5,
+      "expectedHistory": ["Added -5"]
+    }
+  ],
+  "subtractionTests": [
+    {
+      "value": 3,
+      "expectedResult": -3,
+      "expectedHistory": ["Subtracted 3"]
+    },
+    {
+      "value": -3,
+      "expectedResult": 3,
+      "expectedHistory": ["Subtracted -3"]
+    }
+  ],
+  "multiplicationTests": [
+    {
+      "value": 3,
+      "expectedResult": 6,
+      "expectedHistory": ["Multiplied by 3"]
+    },
+    {
+      "value": -3,
+      "expectedResult": -6,
+      "expectedHistory": ["Multiplied by -3"]
+    },
+    {
+      "value": 0,
+      "expectedResult": 0,
+      "expectedHistory": ["Multiplied by 0"]
+    }
+  ],
+  "divisionTests": [
+    {
+      "value": 2,
+      "expectedResult": 5,
+      "expectedHistory": ["Divided by 2"]
+    },
+    {
+      "value": -2,
+      "expectedResult": -5,
+      "expectedHistory": ["Divided by -2"]
+    }
+  ],
+  "divisionByZeroTest": [
+    {
+      "value": 0
+    }
+  ],
+  "multipleOperationsTest": [
+    {
+      "add": 5,
+      "subtract": 2,
+      "multiply": 3,
+      "divide": 2,
+      "expectedResult": 4.5,
+      "expectedHistory": [
+        "Added 5",
+        "Subtracted 2",
+        "Multiplied by 3",
+        "Divided by 2"
+      ]
+    }
+  ],
+  "resetTest": [
+    {
+      "add": 5,
+      "expectedResult": 0,
+      "expectedHistory": []
+    }
+  ]
+}

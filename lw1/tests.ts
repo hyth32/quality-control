@@ -6,15 +6,13 @@ const testTriangle = async () => {
     const results = []
 
     for (const testCase of testCases.split('\n')) {
-        const parts = testCase.split(' ')
-        const [a, b, c] = [Number(parts[0]), Number(parts[1]), Number(parts[2])]
-        const expected = parts.slice(3).join(' ').trim()
-        const res = determineTriangleType({a, b, c})
+        if (testCase.trim() !== '') {
+            const parts = testCase.split(' ')
+            const [a, b, c] = [Number(parts[0]), Number(parts[1]), Number(parts[2])]
+            const expected = parts.slice(3).join(' ').trim()
+            const res = determineTriangleType({a, b, c})
 
-        if (res === expected) {
-            results.push('success')
-        } else {
-            results.push('error')
+            results.push(res === expected ? 'success' : 'error')
         }
     }
 
