@@ -3,6 +3,10 @@ const testData = require('./calculatorTestData.json')
 
 type TestType = {
     value: number,
+    expectedError: {
+        exists: boolean,
+        message?: string
+    },
     expectedResult: number,
     expectedHistory: string[]
 }
@@ -20,15 +24,19 @@ describe('Calculator', () => {
         multiplicationTests
     } = testData
 
-    additionTests.forEach(({value, expectedResult, expectedHistory}: TestType) => {
+    additionTests.forEach(({value, expectedError, expectedResult, expectedHistory}: TestType) => {
         test(`add ${value}`, async () => {
+            if (expectedError.exists) {
+                expect(() => calculator.checkNumber(value)).toThrow(expectedError.message)
+                return
+            }
             calculator.add(value)
             expect(calculator.getResult()).toBe(expectedResult)
             expect(calculator.getHistory()).toEqual(expectedHistory)
         })
     })
 
-    subtractionTests.forEach()
+    // subtractionTests.forEach()
 
     test('subtract', () => {
         calculator.subtract(3)

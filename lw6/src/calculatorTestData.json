@@ -2,13 +2,37 @@
   "additionTests": [
     {
       "value": 5,
+      "expectedError": {
+        "exists": false
+      },
       "expectedResult": 5,
       "expectedHistory": ["Added 5"]
     },
     {
       "value": -5,
+      "expectedError": {
+        "exists": false
+      },
       "expectedResult": -5,
       "expectedHistory": ["Added -5"]
+    },
+    {
+      "value": "qwe",
+      "expectedError": {
+        "exists": true,
+        "message": "Value is not a number"
+      },
+      "expectedResult": 0,
+      "expectedHistory": []
+    },
+    {
+      "value": 2e300,
+      "expectedError": {
+        "exists": true,
+        "message": "Value is not a number"
+      },
+      "expectedResult": 0,
+      "expectedHistory": []
     }
   ],
   "subtractionTests": [

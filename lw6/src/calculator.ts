@@ -7,6 +7,19 @@ export class Calculator {
         this._history = []
     }
 
+    public checkNumber(value: number) {
+        const number = Number(value)
+        const maxNumber = Math.pow(2, 53) - 1
+        const minNumber = -maxNumber
+
+        if (!number) {
+            throw new Error('Value is not a number')
+        }
+        if (number > maxNumber || number < minNumber) {
+            throw new Error('Value is not in number type range')
+        }
+    }
+
     public add(value: number): void {
         this._result += value
         this._history.push(`Added ${value}`)
